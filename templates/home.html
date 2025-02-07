@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Legal Insight</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/document_analyzer">Document Analyzer</a></li>
+            <li><a href="/past_cases">Past Cases</a></li>
+        </ul>
+    </nav>
+    <div class="hero">
+        <h1>Welcome to Legal Insight</h1>
+        <p>Your AI-powered assistant for legal research</p>
+        <a href="/past_cases" class="btn">Explore Past Cases</a> <br>
+        <a href="/document_analyzer" class="btn">Explore Document Analyzer</a>
+    </div>
+</body>
+</html>

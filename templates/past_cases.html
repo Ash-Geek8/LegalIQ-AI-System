@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Chatbot - Past Cases</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/document_analyzer">Document Analyzer</a></li>
+            <li><a href="{{ url_for('past_cases') }}">Past Cases</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Ask a Legal Query</h1>
+        <p>Find legal information from past cases</p>
+    </div>
+
+    <!-- Query Form -->
+    <div class="container">
+        <form action="{{ url_for('past_cases') }}" method="post">
+            <label for="query">Enter Your Legal Query</label>
+            <input type="text" id="query" name="query" placeholder="Type your legal question..." required>
+            <button type="submit" class="btn">Submit</button>
+        </form>
+    </div>
+
+    {% if text %}
+    <!-- Matched Legal Text -->
+    <div class="container response">
+        <h2>Matched Legal Text</h2>
+        <p>{{ text }}</p>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="container response">
+        <h2>Summary</h2>
+        <p>{{ summary }}</p>
+    </div>
+
+    <!-- Follow-up Query Form -->
+    <div class="container">
+        <form action="{{ url_for('past_cases') }}" method="post">
+            <input type="hidden" name="text" value="{{ text }}">
+            <input type="hidden" name="summary" value="{{ summary }}">
+            <label for="followup-query">Ask About the Summary</label>
+            <input type="text" id="followup-query" name="query" placeholder="Ask for more details..." required>
+            <button type="submit" class="btn">Ask</button>
+        </form>
+    </div>
+
+    {% if answer %}
+    <!-- Answer Section -->
+    <div class="container response">
+        <h2>Answer</h2>
+        <p>{{ answer }}</p>
+    </div>
+    {% endif %}
+
+    {% endif %}
+
+    <!-- Back to Home -->
+    <div class="container">
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+
+    <!-- Footer 
+    <footer>
+        <p>&copy; 2025 Legal Chatbot. All rights reserved.</p>
+    </footer> -->
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">📄 Document Analyzer</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/document_analyzer" class="active">Document Analyzer</a></li>
+            <li><a href="/past_cases">Past Cases</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Upload & Analyze Your Document</h1>
+        <form id="upload-form" method="POST" enctype="multipart/form-data">
+            <label for="file-upload" class="custom-file-upload">
+                📂 Click to Upload a File
+            </label>
+            <input type="file" id="file-upload" name="file" required>
+            <button type="submit">Upload & Analyze</button>
+        </form>
+
+        {% if content %}
+        <div class="document-section">
+            <h2>📄 Document Content</h2>
+            <div class="content-box">{{ content }}</div>
+
+            <h2>📝 Summary</h2>
+            <div class="summary-box">{{ summary }}</div>
+
+            <h2>🔑 Key Topics & Purpose</h2>
+            <div class="keywords-box">
+                {% for keyword in keywords %}
+                    <span class="keyword">{{ keyword }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h2>💬 Chat with the Document</h2>
+        <div class="chat-container">
+            <div id="chat-box"></div>
+            <input type="text" id="user-input" placeholder="Ask a question...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function sendMessage() {
+            let user_input = document.getElementById("user-input").value;
+            if (!user_input) return;
+
+            let chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<p class="user-msg"><b>You:</b> ${user_input}</p>`;
+
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: user_input })
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatBox.innerHTML += `<p class="bot-msg"><b>Bot:</b> ${data.response}</p>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+
+            document.getElementById("user-input").value = "";
+        }
+    </script>
+</body>
+</html>
